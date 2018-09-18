@@ -112,11 +112,11 @@ public class Character {
     }
     
     public void reverseX() {
-        
+        dx = -dx;
     }
     
     public void reverseY() {
-        
+        dy = -dy;
     }
 
     

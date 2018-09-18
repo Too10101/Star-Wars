@@ -40,7 +40,7 @@ public class Hero extends Character {
     //Public Methods
     
     public void collect() {
-
+        
     }
     
     public void teleport() {
@@ -51,7 +51,6 @@ public class Hero extends Character {
         x = 1100;
         y = 50;
     }
-    
     
     //Private Methods
     private void grow() {

@@ -31,7 +31,7 @@ public class Space extends JPanel{
         hero = new Hero(100, 100, Color.MAGENTA, 40, "Hero");
         enemy = new Enemy(1000, 650, Color.RED, 40, "Enemy");
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(), 150, 150);
+        timer.scheduleAtFixedRate(new ScheduleTask(), 150, 25);
     }
     
     @Override
@@ -51,6 +51,8 @@ public class Space extends JPanel{
     
         @Override
         public void run() {
+            wallCollisions(hero);
+            wallCollisions(enemy);
             hero.update();
             enemy.update();
             repaint();
@@ -59,16 +61,16 @@ public class Space extends JPanel{
     
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_D) {
-            hero.setDX(6);
+            hero.setDX(2);
         }
         if (e.getKeyCode() == KeyEvent.VK_A) {
-            hero.setDX(-6);
+            hero.setDX(-2);
         }
         if (e.getKeyCode() == KeyEvent.VK_W) {
-            hero.setDY(-6);
+            hero.setDY(-2);
         }
         if (e.getKeyCode() == KeyEvent.VK_S) {
-            hero.setDY(6);
+            hero.setDY(2);
         }
         if (e.getKeyCode() == KeyEvent.VK_T) {
             hero.teleport();
@@ -89,7 +91,12 @@ public class Space extends JPanel{
             hero.setDY(0);
     }
     
-    private void wallCollissions() {
-        
+    private void wallCollisions(Character c) {
+        if (c.getX() <= 0 || c.getX() + 40 >= this.getWidth()) {
+            c.reverseX();
+        }
+        if (c.getY() <= 0 || c.getY() + 40 >= this.getHeight()) {
+            c.reverseY();
+        }
     }
 }
