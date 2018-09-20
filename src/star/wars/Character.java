@@ -19,7 +19,7 @@ public class Character {
     private int dx;
     private int dy;
     private Color color;
-    private int size;
+    int size;
     private String name;
     
     //Constructor
@@ -97,9 +97,8 @@ public class Character {
         g.fillRect(x, y, size, size);
     }
     
-    public void kill() {
-        
-        grow();
+    public void kill(Character c) {
+        c.setSize(0);
     }
     
     public void move(int dx, int dy) {
@@ -112,16 +111,27 @@ public class Character {
     }
     
     public void reverseX() {
-        dx = -dx;
+        dx = 0;
+        x += 1;
     }
     
     public void reverseY() {
-        dy = -dy;
+        dy = 0;
+        y += 1;
+    }
+     public void reverseX2() {
+        dx = 0;
+        x -= 1;
+    }
+    
+    public void reverseY2() {
+        dy = 0;
+        y -= 1;
     }
 
     
     //Private Methods
     private void grow() {
-        size *= 1.05;
+        size *= .95;
     }
 }

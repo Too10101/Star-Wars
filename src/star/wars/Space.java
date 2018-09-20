@@ -22,6 +22,7 @@ public class Space extends JPanel{
     final int marginY;
     private Hero hero;
     private Enemy enemy;
+    private Collectables collectables;
     private Timer timer;
     
     public Space() {
@@ -30,8 +31,9 @@ public class Space extends JPanel{
         marginY = 10;
         hero = new Hero(100, 100, Color.MAGENTA, 40, "Hero");
         enemy = new Enemy(1000, 650, Color.RED, 40, "Enemy");
+        collectables = new Collectables(1100, 700, 20, Color.BLUE, "collectables");
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(), 150, 25);
+        timer.scheduleAtFixedRate(new ScheduleTask(), 150, 1000/60);
     }
     
     @Override
@@ -43,6 +45,7 @@ public class Space extends JPanel{
         
         hero.draw(g);
         enemy.draw(g);
+        collectables.draw(g);
         
         g.dispose();
         }
@@ -55,6 +58,8 @@ public class Space extends JPanel{
             wallCollisions(enemy);
             hero.update();
             enemy.update();
+            heroVsEnemy(enemy);
+            heroVsCollectables();
             repaint();
         }
     }
@@ -92,11 +97,37 @@ public class Space extends JPanel{
     }
     
     private void wallCollisions(Character c) {
-        if (c.getX() <= 0 || c.getX() + 40 >= this.getWidth()) {
+        if (c.getX() <= 0) {
             c.reverseX();
         }
-        if (c.getY() <= 0 || c.getY() + 40 >= this.getHeight()) {
+        if (c.getX() + 40 >= this.getWidth()) {
+            c.reverseX2();
+        }
+        if (c.getY() <= 0) {
             c.reverseY();
+        }
+        if (c.getY() + 40 >= this.getHeight()) {
+            c.reverseY2();
+        }
+    }
+    
+    private void heroVsEnemy(Character c) {
+        if (hero.getX()+ 40 >= enemy.getX() && hero.getY() + 40 >= enemy.getY()) {
+            if (hero.getX() <= enemy.getX() + 40 && hero.getY() <= enemy.getY() + 40) {
+                c.kill(c);
+                enemy.setX(-2000);
+            }
+        }
+    }
+    private void heroVsCollectables() {
+        if (hero.getX() + 40 >= collectables.getX() && hero.getY() + 40 >= collectables.getY()) {
+            if (hero.getX() <= collectables.getX() + 20 && hero.getY() <= collectables.getY() + 20) {
+                collectables.setSize(0);
+                collectables.setX(2000);
+                    if (collectables.getX() == 2000) {
+                        
+                    }
+            }
         }
     }
 }
